@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package scheduler;
+
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/forgetaboutitapp/protobufs/scheduler";
+
+message ToScheduler {
+  repeated Card cards = 1;
+  string custom_params = 2;
+}
+
+message Card {
+  uint32 id = 1;
+  bool is_current = 2;
+  repeated CardRecord card_records = 3;
+}
+
+message CardRecord {
+  google.protobuf.Timestamp when = 1;
+  bool correct = 2;
+}
+
+message FromScheduler {
+  oneof response {
+    ResponseCorrect good_value = 1;
+    ResponseWrong bad_value = 2;
+  }
+}
+
+message ResponseWrong {
+  string to_log = 1;
+  string to_user = 2;
+}
+
+message ResponseCorrect {
+  uint64 amnt_new_cards = 1;
+  uint64 amnt_due_cards = 2;
+  uint64 amnt_non_due_cards = 3;
+  oneof card_to_view {
+    Card new_card = 4;
+    Card due_card = 5;
+    Card non_due_card = 6;
+  }
+  bool is_short_term = 7;
+  map<uint32, uint64> future_card_heatmap = 8;
+}
