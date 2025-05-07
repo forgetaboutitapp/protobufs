@@ -9,12 +9,13 @@ option go_package = "github.com/forgetaboutitapp/protobufs/scheduler";
 
 message ToScheduler {
   repeated Card cards = 1;
-  string custom_params = 2;
+  repeated string tags_to_query = 2;
+  string custom_params = 3;
 }
 
 message Card {
   uint32 id = 1;
-  bool is_current = 2;
+  repeated string tags = 2;
   repeated CardRecord card_records = 3;
 }
 
@@ -40,10 +41,13 @@ message ResponseCorrect {
   uint64 amnt_due_cards = 2;
   uint64 amnt_non_due_cards = 3;
   oneof card_to_view {
-    Card new_card = 4;
-    Card due_card = 5;
-    Card non_due_card = 6;
+    NoCard no_card = 4;
+    Card new_card = 5;
+    Card due_card = 6;
+    Card non_due_card = 7;
   }
-  bool is_short_term = 7;
-  map<uint32, uint64> future_card_heatmap = 8;
+  bool is_short_term = 8;
+  map<uint32, uint64> future_card_heatmap = 9;
 }
+
+message NoCard {}
