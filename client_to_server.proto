@@ -90,6 +90,7 @@ message RemoveAlgorithm {
 message GetStats {
   google.protobuf.Timestamp start_time = 1;
   google.protobuf.Timestamp end_time = 2;
+  int64 tz_offset = 3;
 }
 
 message InsecureMessage {
