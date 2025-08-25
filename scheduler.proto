@@ -10,6 +10,7 @@ message ToScheduler {
   repeated Card cards = 1;
   repeated string tags_to_query = 2;
   string custom_params = 3;
+  bool get_new_questions = 4;
 }
 
 message Card {

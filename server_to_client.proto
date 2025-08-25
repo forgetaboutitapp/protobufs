@@ -118,7 +118,7 @@ message GetNextQuestion {
 }
 
 message GradeQuestion {
-  google.protobuf.Duration next_due = 1;
+  uint64 next_due = 1;
 }
 
 message UploadAlgorithm {

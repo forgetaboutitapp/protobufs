@@ -64,6 +64,7 @@ message GetAllTags {
 
 message GetNextQuestion {
   repeated string tags = 1;
+  bool get_new_question = 2;
 }
 
 message GradeQuestion {
