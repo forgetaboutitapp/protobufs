@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package scheduler;
+package scheduler.v1;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/forgetaboutitapp/protobufs/scheduler";
+option go_package = "protobufs/scheduler";
 
 message ToScheduler {
   repeated Card cards = 1;

@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package client_server.v1;
+
+import "google/protobuf/timestamp.proto";
+import "client_server/v1/server_to_client.proto";
+
+option go_package = "protobufs/client_server";
+
+message GetAllQuestionsRequest {
+  string token = 1;
+}
+
+message PostAllQuestionsRequest {
+  string token = 1;
+  repeated Flashcard flashcards = 2;
+}
+
+message GenerateNewTokenRequest {
+  string token = 1;
+}
+
+message CheckNewTokenRequest {
+  string token = 1;
+}
+
+message DeleteNewTokenRequest {
+  string token = 1;
+}
+
+message GetRemoteSettingsRequest {
+  string token = 1;
+}
+
+message GetAllTagsRequest {
+  string token = 1;
+}
+
+message GetNextQuestionRequest {
+  string token = 1;
+  repeated string tags = 2;
+  bool get_new_question = 3;
+}
+
+message GradeQuestionRequest {
+  string token = 1;
+  uint32 questionid = 2;
+  bool correct = 3;
+}
+
+message UploadAlgorithmRequest {
+  string token = 1;
+  string algorithm = 2;
+}
+
+message SetDefaultAlgorithmRequest {
+  string token = 1;
+  uint32 algorithm_id = 2;
+}
+
+message RemoveLoginRequest {
+  string token = 1;
+  string login_id = 2;
+}
+
+message RemoveAlgorithmRequest {
+  string token = 1;
+  string algorithm_id = 2;
+}
+
+message GetStatsRequest {
+  string token = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+  int64 tz_offset = 4;
+}
+
+message GetTokenRequest {
+  repeated string twelve_words = 1;
+  string token = 2;
+}
+
+message LogDataRequest {
+  string token = 1;
+  string log = 2;
+  uint32 log_level = 3;
+  google.protobuf.Timestamp timestamp = 4;
+  string version = 5;
+}
+
+service ForgetAboutItService {
+  rpc GetAllQuestions(GetAllQuestionsRequest) returns (GetAllQuestionsResponse);
+  rpc PostAllQuestions(PostAllQuestionsRequest) returns (PostAllQuestionsResponse);
+  rpc GenerateNewToken(GenerateNewTokenRequest) returns (GenerateNewTokenResponse);
+  rpc CheckNewToken(CheckNewTokenRequest) returns (CheckNewTokenResponse);
+  rpc DeleteNewToken(DeleteNewTokenRequest) returns (DeleteNewTokenResponse);
+  rpc GetRemoteSettings(GetRemoteSettingsRequest) returns (GetRemoteSettingsResponse);
+  rpc GetAllTags(GetAllTagsRequest) returns (GetAllTagsResponse);
+  rpc GetNextQuestion(GetNextQuestionRequest) returns (GetNextQuestionResponse);
+  rpc GradeQuestion(GradeQuestionRequest) returns (GradeQuestionResponse);
+  rpc UploadAlgorithm(UploadAlgorithmRequest) returns (UploadAlgorithmResponse);
+  rpc SetDefaultAlgorithm(SetDefaultAlgorithmRequest) returns (SetDefaultAlgorithmResponse);
+  rpc RemoveLogin(RemoveLoginRequest) returns (RemoveLoginResponse);
+  rpc RemoveAlgorithm(RemoveAlgorithmRequest) returns (RemoveAlgorithmResponse);
+  rpc GetStats(GetStatsRequest) returns (GetStatsResponse);
+  rpc LogData(LogDataRequest) returns (LogDataResponse);
+  
+  // Insecure
+  rpc GetToken(GetTokenRequest) returns (GetTokenResponse);
+}

@@ -1,0 +1,238 @@
+syntax = "proto3";
+
+package client_server.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "protobufs/client_server";
+
+message ErrorMessage {
+  string error = 1;
+  bool should_log_out = 2;
+}
+
+message GetAllQuestions {
+  repeated Flashcard flashcards = 1;
+}
+
+message GetAllQuestionsResponse {
+  oneof result {
+    GetAllQuestions ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message PostAllQuestions {
+}
+
+message PostAllQuestionsResponse {
+  oneof result {
+    PostAllQuestions ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message GenerateNewToken {
+  string new_uuid = 1;
+  repeated string mnemonic = 2;
+}
+
+message GenerateNewTokenResponse {
+  oneof result {
+    GenerateNewToken ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message CheckNewToken {
+  bool done = 1;
+}
+
+message CheckNewTokenResponse {
+  oneof result {
+    CheckNewToken ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message DeleteNewToken {
+}
+
+message DeleteNewTokenResponse {
+  oneof result {
+    DeleteNewToken ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message GetRemoteSettings {
+  repeated Device remote_devices = 1;
+  repeated Algorithm algorithms = 2;
+  uint32 default_algorithm = 3; 
+}
+
+message GetRemoteSettingsResponse {
+  oneof result {
+    GetRemoteSettings ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message Device {
+  google.protobuf.Timestamp date_added = 1;
+  google.protobuf.Timestamp last_used = 2;
+  string title = 3;
+  string login_id = 4;
+}
+
+message Algorithm {
+  uint32 algorithm_id = 1;
+  string author_name = 2;
+  string license = 3;
+  string remote_url = 4;
+  string download_url = 5;
+  google.protobuf.Timestamp date_added = 6;
+  uint32 version = 7;
+  string algorithm_name = 8;
+}
+
+message GetToken {
+  string token = 1;
+}
+
+message GetTokenResponse {
+  oneof result {
+    GetToken ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message GetAllTags {
+  repeated Tag tags = 1;
+  bool can_run = 2;
+}
+
+message GetAllTagsResponse {
+  oneof result {
+    GetAllTags ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message Tag {
+  string tag = 1;
+  uint32 total_questions = 2;
+  uint32 new_questions = 3;
+  uint32 due_questions = 4;
+  uint32 non_due_questions = 5;
+}
+
+message GetNextQuestion {
+  Flashcard flashcard = 1;
+  uint32 new_questions = 2;
+  uint32 due_questions = 3;
+  uint32 non_due_questions = 4;
+  enum TypeOfQuestion {
+    TYPE_OF_QUESTION_UNSPECIFIED = 0;
+    TYPE_OF_QUESTION_NEW = 1;
+    TYPE_OF_QUESTION_DUE = 2;
+    TYPE_OF_QUESTION_NON_DUE=3;
+  };
+  TypeOfQuestion type_of_question = 5;
+}
+
+message GetNextQuestionResponse {
+  oneof result {
+    GetNextQuestion ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message GradeQuestion {
+  uint64 next_due = 1;
+}
+
+message GradeQuestionResponse {
+  oneof result {
+    GradeQuestion ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message UploadAlgorithm {
+}
+
+message UploadAlgorithmResponse {
+  oneof result {
+    UploadAlgorithm ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message SetDefaultAlgorithm {
+}
+
+message SetDefaultAlgorithmResponse {
+  oneof result {
+    SetDefaultAlgorithm ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message RemoveLogin {
+}
+
+message RemoveLoginResponse {
+  oneof result {
+    RemoveLogin ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message RemoveAlgorithm {
+}
+
+message RemoveAlgorithmResponse {
+  oneof result {
+    RemoveAlgorithm ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message GetStats {
+  // map beginning-of-day timestamp in phone time (uint64)
+  // to how many cards (uint32)
+  map<uint64, uint32> past_usage = 1;
+  // map beginning-of-day timestamp in phone time (uint64)
+  // to how many cards will be due (uint32)
+  map<uint64, uint32> future_usage = 2;
+  // map beginning-of-day timestamp in phone time (uint64) 
+  // to percent correct (double)
+  map<uint64, double> past_results = 3;
+}
+
+message GetStatsResponse {
+  oneof result {
+    GetStats ok = 1;
+    ErrorMessage error = 2;
+  }
+}
+
+message Flashcard {
+  uint32 id = 1;
+  string question = 2;
+  string answer = 3;
+  string explanation = 4;
+  string memo_hint = 5;
+  repeated string tags = 6;
+}
+
+message LogData {
+}
+
+message LogDataResponse {
+  oneof result {
+    LogData ok = 1;
+    ErrorMessage error = 2;
+  }
+}
