@@ -1,18 +1,8 @@
+# This file is intentionally minimal.
+# Use buf.gen.go.yaml (Go plugins) and buf.gen.dart.yaml (Dart plugin) instead.
+# Run:
+#   buf generate --template buf.gen.go.yaml
+#   buf generate --template buf.gen.dart.yaml
 version: v2
-managed:
-  enabled: true
-  override:
-    - file_option: go_package_prefix
-      value: github.com/forgetaboutitapp/forget-about-it/server/protobufs-build
-plugins:
-  - local: [go, tool, -C, ../forget-about-it/server, protoc-gen-go]
-    out: ../forget-about-it/server/protobufs-build
-    opt:
-      - paths=source_relative
-  - local: [go, tool, -C, ../forget-about-it/server, protoc-gen-connect-go]
-    out: ../forget-about-it/server/protobufs-build
-    opt:
-      - paths=source_relative
-      - simple
-  - local: [protoc-gen-dart]
-    out: ../forget-about-it/frontend/lib/protobufs-build
+inputs:
+  - directory: .

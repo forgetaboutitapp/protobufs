@@ -1,0 +1,10 @@
+version: v2
+plugins:
+  - local: [protoc-gen-dart]
+    out: ../forget-about-it/frontend/lib/protobufs-build
+    include_imports: true
+    opt:
+      - grpc
+inputs:
+  - directory: .
+  - module: buf.build/protocolbuffers/wellknowntypes
